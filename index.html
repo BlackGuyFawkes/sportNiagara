@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SportON - Niagara Sports Portal</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    :root {
+      --primary: #1a56db;
+      --primary-light: #3b82f6;
+      --secondary: #e53e3e;
+      --accent: #f6ad55;
+      --dark: #1e293b;
+      --light: #f8fafc;
+    }
+    
+    body {
+      background: linear-gradient(135deg, #f0f9ff, #e6f7ff);
+      color: var(--dark);
+      line-height: 1.6;
+    }
+    
+    header {
+      background: linear-gradient(135deg, var(--primary), #0f2c6d);
+      color: white;
+      padding: 1.5rem 1rem;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    header::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--accent), #f6ad55, #fbd38d);
+    }
+    
+    h1 {
+      margin-bottom: 1.5rem;
+      font-size: 2.8rem;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.8rem;
+    }
+    
+    h1 i {
+      color: var(--accent);
+    }
+    
+    nav {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      margin-top: 1.2rem;
+    }
+    
+    nav button {
+      background-color: rgba(255, 255, 255, 0.15);
+      border: none;
+      color: white;
+      padding: 0.9rem 1.8rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 1.05rem;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    
+    nav button:hover, nav button.active {
+      background-color: white;
+      color: var(--primary);
+      transform: translateY(-3px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    }
+    
+    nav button i {
+      font-size: 1.2rem;
+    }
+    
+    main {
+      max-width: 1200px;
+      margin: 2.5rem auto;
+      padding: 0 1.5rem;
+    }
+    
+    .tab {
+      display: none;
+      background: white;
+      border-radius: 16px;
+      padding: 2.5rem;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+      animation: fadeIn 0.5s ease;
+      border: 1px solid #e2e8f0;
+    }
+    
+    .tab.active {
+      display: block;
+    }
+    
+    h2 {
+      color: var(--primary);
+      margin-bottom: 1.8rem;
+      padding-bottom: 0.8rem;
+      border-bottom: 2px solid #e2e8f0;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      font-size: 1.8rem;
+    }
+    
+    h2 i {
+      color: var(--primary-light);
+      font-size: 1.5rem;
+    }
+    
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.8rem;
+      margin-top: 1.5rem;
+    }
+    
+    .card {
+      background: white;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+      transition: all 0.3s ease;
+      border: 1px solid #e2e8f0;
+    }
+    
+    .card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 12px 20px rgba(0,0,0,0.12);
+    }
+    
+    .card-image {
+      height: 200px;
+      background-size: cover;
+      background-position: center;
+      position: relative;
+    }
+    
+    .card-badge {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: var(--secondary);
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    
+    .card-content {
+      padding: 1.5rem;
+    }
+    
+    .card h3 {
+      color: var(--primary);
+      margin-bottom: 0.8rem;
+      font-size: 1.4rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .card p {
+      color: #4b5563;
+      margin-bottom: 1.2rem;
+      line-height: 1.6;
+    }
+    
+    .card .info {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--primary);
+      margin-bottom: 0.8rem;
+      font-weight: 500;
+    }
+    
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--primary);
+      color: white;
+      padding: 0.8rem 1.5rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s;
+    }
+    
+    .btn:hover {
+      background: var(--primary-light);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    
+    .btn-secondary {
+      background: var(--secondary);
+    }
+    
+    .btn-secondary:hover {
+      background: #e53e3e;
+    }
+    
+    .progress-container {
+      background: #edf2f7;
+      border-radius: 10px;
+      height: 12px;
+      margin: 1rem 0;
+      overflow: hidden;
+    }
+    
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary-light), var(--primary));
+      border-radius: 10px;
+    }
+    
+    .athlete-card {
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+      padding: 1.5rem;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    
+    .athlete-avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: var(--primary-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      color: white;
+      flex-shrink: 0;
+    }
+    
+    .athlete-info h3 {
+      color: var(--primary);
+      margin-bottom: 0.5rem;
+    }
+    
+    .athlete-info p {
+      color: #4b5563;
+      margin-bottom: 0.5rem;
+    }
+    
+    .eligibility {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.3rem 0.8rem;
+      border-radius: 20px;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+    
+    .eligible {
+      background: #dcfce7;
+      color: #166534;
+    }
+    
+    .not-eligible {
+      background: #fee2e2;
+      color: #b91c1c;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    footer {
+      text-align: center;
+      padding: 2.5rem;
+      color: var(--dark);
+      background: #f1f5f9;
+      margin-top: 3rem;
+      border-top: 1px solid #e2e8f0;
+    }
+    
+    .footer-content {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-top: 1.2rem;
+    }
+    
+    .footer-links a {
+      color: var(--primary);
+      text-decoration: none;
+      transition: all 0.3s;
+      font-weight: 500;
+    }
+    
+    .footer-links a:hover {
+      color: var(--accent);
+      text-decoration: underline;
+    }
+    
+    .section-intro {
+      text-align: center;
+      max-width: 800px;
+      margin: 0 auto 2.5rem;
+      color: #4b5563;
+      line-height: 1.8;
+    }
+    
+    .stats {
+      display: flex;
+      justify-content: space-around;
+      margin: 1.5rem 0;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    
+    .stat-card {
+      background: white;
+      border-radius: 12px;
+      padding: 1.5rem;
+      text-align: center;
+      min-width: 150px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    }
+    
+    .stat-card .number {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 0.5rem;
+    }
+    
+    .stat-card .label {
+      color: #4b5563;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1><i class="fas fa-running"></i> SportON</h1>
+    <nav>
+      <button class="active" onclick="showTab('facilities')"><i class="fas fa-map-marker-alt"></i> Facilities</button>
+      <button onclick="showTab('challenges')"><i class="fas fa-trophy"></i> Challenges</button>
+      <button onclick="showTab('athletes')"><i class="fas fa-users"></i> Athletes</button>
+      <button onclick="showTab('events')"><i class="fas fa-calendar-alt"></i> Events</button>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Facilities Tab -->
+    <section id="facilities" class="tab active">
+      <h2><i class="fas fa-map-marker-alt"></i> Find and Book Facilities</h2>
+      
+      <div class="section-intro">
+        <p>Discover and book world-class sports facilities across Niagara. From ice rinks to soccer fields, find the perfect venue for your next game or practice.</p>
+      </div>
+      
+      <div class="stats">
+        <div class="stat-card">
+          <div class="number">287</div>
+          <div class="label">Facilities</div>
+        </div>
+        <div class="stat-card">
+          <div class="number">63</div>
+          <div class="label">Cities</div>
+        </div>
+        <div class="stat-card">
+          <div class="number">24</div>
+          <div class="label">Sports</div>
+        </div>
+        <div class="stat-card">
+          <div class="number">98%</div>
+          <div class="label">Availability</div>
+        </div>
+      </div>
+      
+      <div class="card-grid" id="facility-list">
+        <div class="card">
+          <div class="card-image" style="background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)), url('https://images.unsplash.com/photo-1540497077202-7c8a3999166f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80');">
+            <div class="card-badge">Available</div>
+          </div>
+          <div class="card-content">
+            <h3><i class="fas fa-hockey-puck"></i> Toronto Ice Sports Complex</h3>
+            <div class="info"><i class="fas fa-map-marker-alt"></i> Toronto, Niagara</div>
+            <div class="info"><i class="fas fa-clock"></i> Open: 6am-11pm Daily</div>
+            <p>State-of-the-art ice complex with 4 NHL-sized rinks, pro shop, and fitness center.</p>
+            <a href="#" class="btn"><i class="fas fa-calendar-check"></i> Book Now</a>
+          </div>
+        </div>
+        
+        <div class="card">
+          <div class="card-image" style="background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)), url('https://images.unsplash.com/photo-1575361204480-aadea25e6e68?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80');">
+            <div class="card-badge">Available</div>
+          </div>
+          <div class="card-content">
+            <h3><i class="fas fa-basketball-ball"></i> Ottawa Sports Dome</h3>
+            <div class="info"><i class="fas fa-map-marker-alt"></i> Ottawa, Niagara</div>
+            <div class="info"><i class="fas fa-clock"></i> Open: 7am-10pm Daily</div>
+            <p>Indoor multi-sport facility with turf fields, basketball courts, and climbing wall.</p>
+            <a href="#" class="btn"><i class="fas fa-calendar-check"></i> Book Now</a>
+          </div>
+        </div>
+        
+        <div class="card">
+          <div class="card-image" style="background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)), url('https://images.unsplash.com/photo-1529900748604-07564a03e7a6?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80');">
+            <div class="card-badge">Limited</div>
+          </div>
+          <div class="card-content">
+            <h3><i class="fas fa-swimmer"></i> Hamilton Aquatic Center</h3>
+            <div class="info"><i class="fas fa-map-marker-alt"></i> Hamilton, Niagara</div>
+            <div class="info"><i class="fas fa-clock"></i> Open: 5am-9pm Weekdays</div>
+            <p>Olympic-sized swimming pool with diving facilities and training equipment.</p>
+            <a href="#" class="btn"><i class="fas fa-calendar-check"></i> Book Now</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Challenges Tab -->
+    <section id="challenges" class="tab">
+      <h2><i class="fas fa-trophy"></i> Community Challenges</h2>
+      
+      <div class="section-intro">
+        <p>Join community-wide sports challenges to stay active, compete with others, and win exciting prizes!</p>
+      </div>
+      
+      <div class="card-grid" id="challenge-list">
+        <div class="card">
+          <div class="card-image" style="background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)), url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80');">
+            <div class="card-badge">Active</div>
+          </div>
+          <div class="card-content">
+            <h3><i class="fas fa-running"></i> 100K Run Challenge</h3>
+            <div class="info"><i class="fas fa-calendar"></i> Oct 1 - Dec 31, 2023</div>
+            <p>Run 100 kilometers over 3 months and track your progress. Win prizes for milestones!</p>
+            <div class="progress-container">
+              <div class="progress-bar" style="width: 65%"></div>
+            </div>
+            <div class="info">Community Progress: 65%</div>
+            <div class="info">Participants: 2,450</div>
+            <a href="#" class="btn"><i class="fas fa-sign-in-alt"></i> Join Challenge</a>
+          </div>
+        </div>
+        
+        <div class="card">
+          <div class="card-image" style="background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)), url('https://images.unsplash.com/photo-1518611012118-696072aa579a?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80');">
+            <div class="card-badge">New</div>
+          </div>
+          <div class="card-content">
+            <h3><i class="fas fa-biking"></i> Fall Cycling Challenge</h3>
+            <div class="info"><i class="fas fa-calendar"></i> Nov 1 - Dec 15, 2023</div>
+            <p>Cycle 500km before winter arrives. Track your rides and compete with others!</p>
+            <div class="progress-container">
+              <div class="progress-bar" style="width: 22%"></div>
+            </div>
+            <div class="info">Community Progress: 22%</div>
+            <div class="info">Participants: 1,780</div>
+            <a href="#" class="btn"><i class="fas fa-sign-in-alt"></i> Join Challenge</a>
+          </div>
+        </div>
+        
+        <div class="card">
+          <div class="card-image" style="background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)), url('https://images.unsplash.com/photo-1549060279-7e168fce7090?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80');">
+            <div class="card-badge">Upcoming</div>
+          </div>
+          <div class="card-content">
+            <h3><i class="fas fa-snowflake"></i> Winter Fitness Challenge</h3>
+            <div class="info"><i class="fas fa-calendar"></i> Dec 15, 2023 - Feb 28, 2024</div>
+            <p>Stay active through the winter with this indoor fitness challenge. Earn points for activities!</p>
+            <div class="progress-container">
+              <div class="progress-bar" style="width: 0%"></div>
+            </div>
+            <div class="info">Starts in 23 days</div>
+            <a href="#" class="btn"><i class="fas fa-bell"></i> Set Reminder</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Athletes Tab -->
+    <section id="athletes" class="tab">
+      <h2><i class="fas fa-users"></i> Athlete Profiles</h2>
+      
+      <div class="section-intro">
+        <p>Discover talented athletes from Niagara, learn about their journeys, and connect with them.</p>
+      </div>
+      
+      <div id="athlete-list">
+        <div class="athlete-card">
+          <div class="athlete-avatar">
+            <i class="fas fa-swimmer"></i>
+          </div>
+          <div class="athlete-info">
+            <h3>Sarah Johnson</h3>
+            <p>Competitive Swimming | Age 17</p>
+            <p>🏅 3x National Champion, Pan Am Games Silver Medalist</p>
+            <span class="eligibility eligible"><i class="fas fa-check-circle"></i> Eligible for Provincial Team</span>
+          </div>
+        </div>
+        
+        <div class="athlete-card">
+          <div class="athlete-avatar">
+            <i class="fas fa-basketball-ball"></i>
+          </div>
+          <div class="athlete-info">
+            <h3>Marcus Chen</h3>
+            <p>Basketball | Age 19</p>
+            <p>🏀 U19 Provincial MVP, National Team Prospect</p>
+            <span class="eligibility eligible"><i class="fas fa-check-circle"></i> Eligible for Provincial Team</span>
+          </div>
+        </div>
+        
+        <div class="athlete-card">
+          <div class="athlete-avatar">
+            <i class="fas fa-skating"></i>
+          </div>
+          <div class="athlete-info">
+            <h3>Emily Rodriguez</h3>
+            <p>Figure Skating | Age 16</p>
+            <p>⛸️ National Junior Champion, Junior Grand Prix Finalist</p>
+            <span class="eligibility not-eligible"><i class="fas fa-times-circle"></i> Currently injured</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Events Tab -->
+    <section id="events" class="tab">
+      <h2><i class="fas fa-calendar-alt"></i> Clinics & Tournaments</h2>
+      
+      <div class="section-intro">
+        <p>Find upcoming sports clinics, tournaments, and events across Niagara. Register today to secure your spot!</p>
+      </div>
+      
+      <div class="card-grid" id="event-list">
+        <div class="card">
+          <div class="card-image" style="background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)), url('https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80');">
+            <div class="card-badge">Registration Open</div>
+          </div>
+          <div class="card-content">
+            <h3><i class="fas fa-volleyball-ball"></i> Niagara Volleyball Championship</h3>
+            <div class="info"><i class="fas fa-calendar"></i> November 15-17, 2023</div>
+            <div class="info"><i class="fas fa-map-marker-alt"></i> Toronto Convention Center</div>
+            <p>Annual provincial championship featuring top teams from across Niagara. Divisions for U14 to U18.</p>
+            <a href="#" class="btn"><i class="fas fa-clipboard-list"></i> Register Team</a>
+          </div>
+        </div>
+        
+        <div class="card">
+          <div class="card-image" style="background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)), url('https://images.unsplash.com/photo-1529907920281-5884285d4b14?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80');">
+            <div class="card-badge">Limited Spots</div>
+          </div>
+          <div class="card-content">
+            <h3><i class="fas fa-baseball-ball"></i> Elite Pitching Clinic</h3>
+            <div class="info"><i class="fas fa-calendar"></i> December 2-3, 2023</div>
+            <div class="info"><i class="fas fa-map-marker-alt"></i> Ottawa Sports Complex</div>
+            <p>2-day intensive clinic with MLB pitching coach. For ages 14-18 with competitive experience.</p>
+            <a href="#" class="btn"><i class="fas fa-clipboard-list"></i> Register Now</a>
+          </div>
+        </div>
+        
+        <div class="card">
+          <div class="card-image" style="background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)), url('https://images.unsplash.com/photo-1517649763962-0c623066013b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80');">
+            <div class="card-badge">New Event</div>
+          </div>
+          <div class="card-content">
+            <h3><i class="fas fa-skiing"></i> Niagara Winter Sports Festival</h3>
+            <div class="info"><i class="fas fa-calendar"></i> January 20-22, 2024</div>
+            <div class="info"><i class="fas fa-map-marker-alt"></i> Blue Mountain Resort</div>
+            <p>Multi-sport winter festival featuring skiing, snowboarding, ice climbing competitions and clinics.</p>
+            <a href="#" class="btn"><i class="fas fa-clipboard-list"></i> Register Now</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-content">
+      <p>SportON - Connecting Niagara's Sports Community</p>
+      <p>© 2023 Ministry of Heritage, Sport, Tourism and Culture Industries. All rights reserved.</p>
+      <div class="footer-links">
+        <a href="#"><i class="fas fa-shield-alt"></i> Privacy Policy</a>
+        <a href="#"><i class="fas fa-file-alt"></i> Terms of Service</a>
+        <a href="#"><i class="fas fa-envelope"></i> Contact Us</a>
+        <a href="#"><i class="fas fa-info-circle"></i> About</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Tab navigation
+    function showTab(id) {
+      // Hide all tabs
+      document.querySelectorAll('.tab').forEach(tab => {
+        tab.classList.remove('active');
+      });
+      
+      // Show selected tab
+      document.getElementById(id).classList.add('active');
+      
+      // Update active button
+      document.querySelectorAll('nav button').forEach(button => {
+        button.classList.remove('active');
+      });
+      event.target.classList.add('active');
+    }
+    
+    // Simulate loading data
+    function loadSheet(sheetName, containerId, mapFn) {
+      // In a real implementation, this would fetch from an API
+      setTimeout(() => {
+        // This would update the content with the mapped data
+        console.log(`Loaded ${sheetName} into ${containerId}`);
+      }, 1000);
+    }
+    
+    window.onload = () => {
+      loadSheet("Facilities", "facility-list", (r) => {
+        return `
+          <div class="card">
+            <div class="card-image" style="background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)), url('${r.c[6].v}');">
+              <div class="card-badge">${r.c[5].v}</div>
+            </div>
+            <div class="card-content">
+              <h3><i class="fas fa-${r.c[7].v}"></i> ${r.c[0].v}</h3>
+              <div class="info"><i class="fas fa-map-marker-alt"></i> ${r.c[1].v}</div>
+              <div class="info"><i class="fas fa-clock"></i> ${r.c[3].v}</div>
+              <p>${r.c[2].v}</p>
+              <a href="${r.c[4].v}" class="btn"><i class="fas fa-calendar-check"></i> Book Now</a>
+            </div>
+          </div>
+        `;
+      });
+      
+      loadSheet("Challenges", "challenge-list", (r) => {
+        return `
+          <div class="card">
+            <div class="card-image" style="background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)), url('${r.c[5].v}');">
+              <div class="card-badge">${r.c[6].v}</div>
+            </div>
+            <div class="card-content">
+              <h3><i class="fas fa-${r.c[7].v}"></i> ${r.c[0].v}</h3>
+              <div class="info"><i class="fas fa-calendar"></i> ${r.c[1].v} to ${r.c[2].v}</div>
+              <p>${r.c[3].v}</p>
+              <div class="progress-container">
+                <div class="progress-bar" style="width: ${r.c[8].v}%"></div>
+              </div>
+              <div class="info">Community Progress: ${r.c[8].v}%</div>
+              <div class="info">Participants: ${r.c[4].v}</div>
+              <a href="${r.c[9].v}" class="btn"><i class="fas fa-sign-in-alt"></i> Join Challenge</a>
+            </div>
+          </div>
+        `;
+      });
+      
+      loadSheet("Athletes", "athlete-list", (r) => {
+        return `
+          <div class="athlete-card">
+            <div class="athlete-avatar" style="background: ${r.c[5].v};">
+              <i class="fas fa-${r.c[6].v}"></i>
+            </div>
+            <div class="athlete-info">
+              <h3>${r.c[0].v}</h3>
+              <p>${r.c[1].v} | ${r.c[2].v}</p>
+              <p>${r.c[3].v}</p>
+              <span class="eligibility ${r.c[4].v ? 'eligible' : 'not-eligible'}">
+                <i class="fas fa-${r.c[4].v ? 'check-circle' : 'times-circle'}"></i> 
+                ${r.c[7].v}
+              </span>
+            </div>
+          </div>
+        `;
+      });
+      
+      loadSheet("Events", "event-list", (r) => {
+        return `
+          <div class="card">
+            <div class="card-image" style="background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)), url('${r.c[5].v}');">
+              <div class="card-badge">${r.c[6].v}</div>
+            </div>
+            <div class="card-content">
+              <h3><i class="fas fa-${r.c[7].v}"></i> ${r.c[0].v}</h3>
+              <div class="info"><i class="fas fa-calendar"></i> ${r.c[1].v}</div>
+              <div class="info"><i class="fas fa-map-marker-alt"></i> ${r.c[2].v}</div>
+              <p>${r.c[3].v}</p>
+              <a href="${r.c[4].v}" class="btn"><i class="fas fa-clipboard-list"></i> Register Now</a>
+            </div>
+          </div>
+        `;
+      });
+    };
+  </script>
+</body>
+</html>
